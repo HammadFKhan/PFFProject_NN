@@ -4,7 +4,7 @@ pathname = uigetdir(pwd,'Input Directory');
 pathname = fullfile(pathname);
 directory = dir(fullfile(pathname,'*.tif'));
 L = length(directory);
-flag = 0; % Analyze Pser channel
+flag = 1; % Analyze Pser channel
 for i = 1:L
     filename = directory(i).name;
     t = Tiff(fullfile(pathname,filename),'r');
@@ -46,7 +46,7 @@ for i = 4
     figure,barplot(1.5*gL4{i}),ylim([0 30]),box off,set(gca,'TickDir','out'),title(['L4' num2str(i)]);
 end
 %% erase NAN
-for i = 1:4
+for i = 1:5
     buff = gL5{i};
     buff(isnan(buff)) = [];
     gL5new{i} = buff;
@@ -56,7 +56,7 @@ for i = 1:4
 end
 %% line plot with error
 x = 1:5;
-gL23new{2} = gL23new{2}/2; gL23new{3} = gL23new{3}/2; 
+%gL23new{2} = gL23new{2}/2; gL23new{3} = gL23new{3}/2; 
 y = cellfun(@mean,gL23new)*200;
 err = (cellfun(@std,gL23new))*100;
 figure,errorbar(x,y,err);ylim([0 30]),xlim([0 6]),hold on
@@ -66,3 +66,32 @@ y = cellfun(@mean,gL5new)*300;
 err = (cellfun(@std,gL5new))*100;
 errorbar(x,y,err);ylim([0 40]),xlim([0 6])
 
+%%
+close all
+for n = 1:2
+    f = figure;barplot(gL5{n}')
+    f.Position = [2375 150 260 420];
+    ylim([0 .35])
+end
+%%
+close all
+for n = 1:4
+f = figure;
+barplot(STRL5{n}')
+f.Position = [2375 150 260 420];
+ylim([0 40])
+end
+%% 
+close all
+f = figure;barplot(greenL23Sham')
+f.Position = [2375 150 260 420];
+ylim([0 35])
+f = figure;barplot(greenL5Sham')
+f.Position = [2375 150 260 420];
+ylim([0 35])
+f = figure;barplot(gL23{1}')
+f.Position = [2375 150 260 420];
+ylim([0 35])
+f = figure;barplot(CTXL5{1}')
+f.Position = [2375 150 260 420];
+ylim([0 35])
